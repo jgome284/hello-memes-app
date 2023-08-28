@@ -1,5 +1,4 @@
 # import dependencies
-import cowsay
 import redis
 import time
 from flask import Flask
