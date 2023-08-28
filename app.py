@@ -3,7 +3,7 @@ import redis
 import time
 from flask import Flask
 
-# create app instance
+# create app instance with resources in current working directory
 app = Flask(__name__)
 
 
@@ -34,5 +34,7 @@ def get_hit_count():
 @app.route('/')
 # define view function for route
 def hello():
+    # increment page hit count in cache whenever this page is called 
     count = get_hit_count()
+    # display page hit count
     return 'Hello World! I have been seen {} times.\n'.format(count)
