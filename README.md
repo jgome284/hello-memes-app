@@ -19,3 +19,6 @@ Enter http://localhost:8000/ in a browser to see the application running. Otherw
 You should see a message in your browser saying:
 
 > Hello World! I have been seen 1 times.
+
+## License
+Distributed under the MIT License. See `LICENSE` for more information.
