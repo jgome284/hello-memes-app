@@ -4,7 +4,9 @@
 # If you need more help, visit the Dockerfile reference guide at
 # https://docs.docker.com/engine/reference/builder/
 
+# Specify python version.
 ARG PYTHON_VERSION=3.7
+# Build from Alpine Linux base image with python toolkit. 
 FROM python:${PYTHON_VERSION}-alpine as base
 
 # Prevents Python from writing pyc files.
@@ -14,9 +16,16 @@ ENV PYTHONDONTWRITEBYTECODE=1
 # the application crashes without emitting any logs due to buffering.
 ENV PYTHONUNBUFFERED=1
 
-WORKDIR /app
+# Set file for the flask run command.
 ENV FLASK_APP=app.py
+
+# Set app to bind on local host.
 ENV FLASK_RUN_HOST=0.0.0.0
+
+# Set the container's working directory
+WORKDIR /app
+
+# Install GNU C/C++ compiler, musl C library development files, and Linux kernel headers
 RUN apk add --no-cache gcc musl-dev linux-headers
 
 # Create a non-privileged user that the app will run under.
