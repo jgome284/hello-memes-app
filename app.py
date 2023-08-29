@@ -49,4 +49,3 @@ def show_memes():
     count = get_hit_count()
     # display page hit count
     return render_template("memes.html", meme_pic=meme_pic, subreddit=subreddit, count=count, post=post)
-'Hello World! I have been seen {} times.\n'.format(count)
