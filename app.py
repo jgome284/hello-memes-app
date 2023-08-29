@@ -1,7 +1,9 @@
 # import dependencies
+import json
 import redis
+import requests
 import time
-from flask import Flask
+from flask import Flask, render_template
 
 # create app instance with resources in current working directory
 app = Flask(__name__)
@@ -10,6 +12,13 @@ app = Flask(__name__)
 # create a connection to the Redis server
 cache = redis.Redis(host='redis', port=6379)
 
+def get_meme():
+    url = "https://meme-api.com/gimme"
+    response = json.loads(requests.request("GET", url).text)
+    meme_large = response["preview"][-1]
+    subreddit = response["subreddit"]
+    post = response["postLink"]
+    return meme_large, subreddit, post
 
 # increment the page hits counter that is stored in the redis cache
 def get_hit_count():
@@ -33,8 +42,11 @@ def get_hit_count():
 # set app route at '/'
 @app.route('/')
 # define view function for route
-def hello():
+def show_memes():
+    # get new meme url and it's subreddit
+    meme_pic, subreddit, post = get_meme()
     # increment page hit count in cache whenever this page is called 
     count = get_hit_count()
     # display page hit count
-    return 'Hello World! I have been seen {} times.\n'.format(count)
+    return render_template("memes.html", meme_pic=meme_pic, subreddit=subreddit, count=count, post=post)
+'Hello World! I have been seen {} times.\n'.format(count)
